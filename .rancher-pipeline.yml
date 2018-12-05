@@ -1,0 +1,19 @@
+stages:
+- name: test-stage
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      shellScript: |-
+        npm install
+        npm test
+    env:
+      SERVER: nodeserver
+- name: package-stage
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: juliankamil/pipeline-example:latest
+      pushRemote: true
+      registry: 127.0.0.1:34829
+timeout: 60
